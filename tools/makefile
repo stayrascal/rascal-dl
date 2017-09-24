@@ -5,12 +5,12 @@ TRAIN_DIR=/data/flowers-models/inception_resnet_v2
 CHECKPOINT_PATH=/data/models/inception_resnet_v2_2016_08_30.ckpt
 
 convert-data:
-	python3 slim/download_and_convert_data.py \
+	python3 ../models/slim/download_and_convert_data.py \
 		--dataset_name ${DATASET_NAME} \
 		--dataset_dir ${DATASET_DIR}
 
 train-last-layer:
-	python3 slim/train_image_classifier.py \
+	python3 ../models/slim/train_image_classifier.py \
 		--train_dir=${TRAIN_DIR} \
 		--dataset_name=${DATASET_NAME} \
 		--dataset_split_name=train \
@@ -31,7 +31,7 @@ train-last-layer:
 		--train_image_size=512
 
 eval:
-	python3 slim/eval_image_classifier.py \
+	python3 ../models/slim/eval_image_classifier.py \
 		--checkpoint_path=${TRAIN_DIR} /eval/checkpoint\
 		--eval_dir=${TRAIN_DIR}/eval \
 		--dataset_name=${DATASET_NAME} \
@@ -40,7 +40,7 @@ eval:
 		--model_name=inception_resnet_v2
 
 finetune:
-	python3 slim/train_image_classifier.py \
+	python3 ../models/slim/train_image_classifier.py \
 		--train_dir=${TRAIN_DIR}/finetune \
 		--dataset_name=${DATASET_NAME} \
 		--dataset_split_name=train \
@@ -60,7 +60,7 @@ finetune:
 
 
 train-last-layer-inception:
-	python3 slim/train_image_classifier.py \
+	python3 ../models/slim/train_image_classifier.py \
 		--train_dir=/data/flowers-models/inception_v3 \
 		--dataset_name=${DATASET_NAME} \
 		--dataset_split_name=train \
@@ -80,7 +80,7 @@ train-last-layer-inception:
 		--weight_decay=0.00004
 
 eval-inception:
-	python3 slim/eval_image_classifier.py \
+	python3 ../models/slim/eval_image_classifier.py \
 		--checkpoint_path=/data/flowers-models/inception_v3/eval/checkpoint \
 		--eval_dir=/data/flowers-models/inception_v3/eval \
 		--dataset_name=${DATASET_NAME} \
@@ -89,7 +89,7 @@ eval-inception:
 		--model_name=inception_v3
 
 finetune_inception:
-	python3 slim/train_image_classifier.py \
+	python3 ../models/slim/train_image_classifier.py \
 		--train_dir=/data/flowers-models/inception_v3/finetune \
 		--dataset_name=${DATASET_NAME} \
 		--dataset_split_name=train \
@@ -112,7 +112,7 @@ copy-model:
 	scp aigml-1:/root/dev/projects/challenger.ai/competition/caption/src/../output/finetune_on_inception_v3/inception_v3/all-2/checkpoint ./data/inception_v3/
 
 infer:
-	python3 slim/infer_image_classifier.py \
+	python3 ../models/slim/infer_image_classifier.py \
 		--checkpoint_path=/data/flowers-models/inception_v3 \
 		--dataset_name=${DATASET_NAME} \
 		--image_to_infer=/data/samples \
@@ -120,7 +120,7 @@ infer:
 		--output_file=/data/flowers-models/inception_v3/infer/infer_output.json
 
 infer-final:
-	python3 slim/infer_image_classifier.py \
+	python3 ../models/slim/infer_image_classifier.py \
 		--checkpoint_path=${TRAIN_DIR} \
 		--model_name=inception_resnet_v2 \
 		--infer_image_size=512 \
