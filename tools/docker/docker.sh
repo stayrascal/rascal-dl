@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker build -f ./Dockerfile -t stayrascal/tensorflow:latest
+docker build . -t stayrascal/tensorflow:latest
