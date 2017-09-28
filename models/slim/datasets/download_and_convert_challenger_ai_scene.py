@@ -78,8 +78,7 @@ def _get_filenames_and_classes(dataset_dir):
     A list of image file paths, relative to `dataset_dir` and the list of
     subdirectories, representing class names.
   """
-  class_names = [line.split(',')[2] for line in
-      open(os.path.join(dataset_dir, 'scene_classes.csv'), 'r', encoding='utf8').readlines()]
+  class_names = [line.split(',')[2] for line in open(os.path.join(dataset_dir, 'scene_classes.csv'), 'r', encoding='utf8').readlines()]
   meta = json.loads(open(os.path.join(dataset_dir, 'scene_train_annotations_20170904.json'), 'r').read())
   photo_filenames = [os.path.join(dataset_dir, 'scene_train_images_20170904', meta[i]['image_id']) for i in range(len(meta))]
   photo_classes = [int(meta[i]['label_id']) for i in range(len(meta))]
@@ -164,13 +163,14 @@ def run(dataset_dir):
   random.shuffle(random_list)
   photo_filenames = [photo_filenames[i] for i in random_list]
   photo_classes = [photo_classes[i] for i in random_list]
-  num_validation = math.ceil(len(photo_filenames) * (_NUM_PERCENT_VALIDATION / 100))
-  training_filenames, training_classes = photo_filenames[num_validation:], photo_classes[num_validation:]
-  validation_filenames, validation_classes = photo_filenames[:num_validation], photo_classes[:num_validation]
+
+  # num_validation = math.ceil(len(photo_filenames) * (_NUM_PERCENT_VALIDATION / 100))
+  # training_filenames, training_classes = photo_filenames[num_validation:], photo_classes[num_validation:]
+  # validation_filenames, validation_classes = photo_filenames[:num_validation], photo_classes[:num_validation]
 
   # First, convert the training and validation sets.
-  _convert_dataset('train', training_filenames, training_classes, dataset_dir)
-  _convert_dataset('validation', validation_filenames, validation_classes, dataset_dir)
+  _convert_dataset('train', photo_filenames, photo_classes, dataset_dir)
+  # _convert_dataset('validation', validation_filenames, validation_classes, dataset_dir)
 
   # Finally, write the labels file:
   labels_to_class_names = dict(zip(range(len(class_names)), class_names))

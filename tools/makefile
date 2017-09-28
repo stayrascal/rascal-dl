@@ -1,8 +1,9 @@
-
-DATASET_DIR=/data/flowers
-DATASET_NAME=flowers
-TRAIN_DIR=/data/flowers-models/inception_resnet_v2
-CHECKPOINT_PATH=/data/models/inception_resnet_v2_2016_08_30.ckpt
+DATASET_DIR=/data/ai03/zp/data/ai_challenger_scene_train_20170904/
+VALIDATION_DIR=/data/ai03/zp/data/ai_challenger_scene_validation_20170908/
+TEST_DIR=/data/ai03/zp/data/ai_challenger_scene_test_a_20170922/scene_test_a_images_20170922
+DATASET_NAME=challenger_ai_scene
+TRAIN_DIR=/data/ai03/zp/projects/challenger-ai-sence/inception_resnet_v2
+CHECKPOINT_PATH=/data/ai03/zp/data/models/inception_resnet_v2_2016_08_30.ckpt
 
 convert-data:
 	python3 ../models/slim/download_and_convert_data.py \
@@ -32,8 +33,8 @@ train-last-layer:
 
 eval:
 	python3 ../models/slim/eval_image_classifier.py \
-		--checkpoint_path=${TRAIN_DIR} /eval/checkpoint\
-		--eval_dir=${TRAIN_DIR}/eval \
+		--checkpoint_path=${TRAIN_DIR}\
+		--eval_dir=${TRAIN_DIR} \
 		--dataset_name=${DATASET_NAME} \
 		--dataset_split_name=validation \
 		--dataset_dir=${DATASET_DIR} \
