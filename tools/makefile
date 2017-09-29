@@ -47,7 +47,7 @@ finetune:
 		--dataset_split_name=train \
 		--dataset_dir=${DATASET_DIR} \
 		--model_name=inception_resnet_v2 \
-		--checkpoint_path=${TRAIN_DIR}/finetune/checkpoint \
+		--checkpoint_path=${TRAIN_DIR} \
 		--max_number_of_steps=50000 \
 		--batch_size=14 \
 		--learning_rate=0.0001 \
