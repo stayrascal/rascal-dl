@@ -129,4 +129,4 @@ infer-final:
 		--labels_file= \
 		--image_to_infer= \
 		--batch_size=20 \
-		--output_file=
+		--output_file=test.json
