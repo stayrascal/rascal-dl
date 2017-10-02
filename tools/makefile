@@ -130,3 +130,7 @@ infer-final:
 		--image_to_infer= \
 		--batch_size=20 \
 		--output_file=test.json
+
+		//2017-10-01 07:21:25.751888: I tensorflow/core/kernels/logging_ops.cc:79] eval/Recall_5[0.97666669]
+        //2017-10-01 07:21:25.751923: I tensorflow/core/kernels/logging_ops.cc:79] eval/Accuracy[0.80666667]
+        0.83351851
