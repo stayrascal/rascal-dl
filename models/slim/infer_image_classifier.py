@@ -116,7 +116,7 @@ def main(_):
     batch_size = len(image_files) if FLAGS.batch_size == -1 else FLAGS.batch_size
     images_input = tf.placeholder(tf.float32, (None, infer_image_size, infer_image_size, 3))
     logits, _ = network_fn(images_input)
-    _, predictions_k = tf.nn.top_k(logits, 3)
+    predictions_k_value, predictions_k = tf.nn.top_k(logits, 3)
 
     if tf.gfile.IsDirectory(FLAGS.checkpoint_path):
       checkpoint_path = tf.train.latest_checkpoint(FLAGS.checkpoint_path)
@@ -127,19 +127,25 @@ def main(_):
 
     saver = tf.train.Saver(slim.get_variables_to_restore())
     predictions_k_output = []
+    predictions_k_detail_output = []
 
     with tf.Session() as session:
       saver.restore(session, checkpoint_path)
       num_epochs = math.ceil(len(image_files) / batch_size)
       for i in range(num_epochs):
-        predictions_k_ = session.run(predictions_k, {
+        predictions_k_, predictions_value_k_ = session.run([predictions_k, predictions_k_value], {
           images_input: read_images(image_files[batch_size*i:batch_size*(i+1)], infer_image_size)
         })
         for j, pk in enumerate(predictions_k_):
+          pkv = predictions_value_k_[j]
           pk_str = ', '.join(['%s(%s)' % (labels[str(p)], p) for p in pk])
           print('%s: %s' % (image_files[i*batch_size+j], pk_str))
-          predictions_k_output.append({'image_id': os.path.basename(image_files[i*batch_size+j]), 'label_id': [int(p) for p in pk]})
-
+          predictions_k_detail_output.append({
+              'image_id': os.path.basename(image_files[i * batch_size + j], pk_str),
+              "label_id":
+          })
+          # predictions_k_output.append({'image_id': os.path.basename(image_files[i*batch_size+j]), 'label_id': [int(pk[0]) for p in pk]})
+          predictions_k_output.append({'image_id': os.path.basename(image_files[i * batch_size + j]), 'label_id': int(pk[0])})
     if FLAGS.output_file:
       import json
       open(FLAGS.output_file, 'w').write(json.dumps(predictions_k_output))
