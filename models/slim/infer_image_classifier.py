@@ -142,7 +142,7 @@ def main(_):
           print('%s: %s' % (image_files[i*batch_size+j], pk_str))
           predictions_k_detail_output.append({
               'image_id': os.path.basename(image_files[i * batch_size + j], pk_str),
-              "label_id":
+              "label_id": [[labels[str(p)], int(p), float(pkv[k])] for k, p in enumerate(pk)]
           })
           # predictions_k_output.append({'image_id': os.path.basename(image_files[i*batch_size+j]), 'label_id': [int(pk[0]) for p in pk]})
           predictions_k_output.append({'image_id': os.path.basename(image_files[i * batch_size + j]), 'label_id': int(pk[0])})
