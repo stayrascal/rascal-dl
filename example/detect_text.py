@@ -40,6 +40,18 @@ def get_text_local():
 if __name__ == '__main__':
     get_text_local()
 
+# 4 correct totally: IMAG0005.jpg, IMAG0024.jpg, IMAG0036.jpg, NF_050.jpg
+
+# 10 IMEI: IMAG0005.jpg, IMAG0020.jpg, IMAG0024.jpg, IMAG0036.jpg, NF_050.jpg, img_45.jpg, sc0074(1).jpg, sc0074(3).jpg, sc0074.jpg, sc0064.jpg
+# 15 IMEI: IMAG0005.jpg, IMAG0020.jpg, IMAG0024.jpg, IMAG0036.jpg, NF_050.jpg, img_45.jpg, sc0074(1).jpg, sc0074(3).jpg, sc0074.jpg
+# 1 IMAG0012.jpg, IMAG0015.jpg, img_40.jpg, img_87.jpg, NF_85.jpg
+# 2
+
+
+# 10 time: IMAG0001.jpg, IMAG0005.jpg, IMAG0012.jpg, IMAG0015.jpg, IMAG0024.jpg, IMAG0036.jpg, NF_050.jpg, img_87.jpg, NF_85.jpg, IMG_20170913_133052945[1].jpg-6.jpg
+# 16 date: IMAG0001.jpg, IMAG0005.jpg, IMAG0012.jpg, IMAG0015.jpg, IMAG0020.jpg, IMAG0024.jpg, IMAG0036.jpg, img_40.jpg, NF_050.jpg, img_87.jpg, NF_85.jpg, IMG_20170913_133052945[1].jpg-6.jpg + 4
+
+
 # IMAG0001.jpg       => 79042895113 . 10013017 21:26:53      [135170042895223 - 20/01/2017 21:26:53]
 # IMAG0001.JPG-0.jpg => 79042$95uJ· 2001/2917 21:26:53
 # IMAG0001.JPG-0.png => 79042$9su3 2001/201721.26:53
@@ -90,7 +102,7 @@ if __name__ == '__main__':
 # img_45.jpg-11.png => 135 1702S00%) 2MM 2017 21:11:56
 
 
-# img_87.jpg       => 35170348565377 02/06/2017 2036       [13517034*565377 02/06/2017 20:36:27]
+# img_87.jpg       => 35170348565377 02/06/2017 2036       [135170348565377 02/06/2017 20:36:27]
 # img_87.jpg-3.jpg => 35170348565377 02/06/2017 20 36 27
 # img_87.jpg-3.png => 35170348565377 02/06/2017 20 36 27
 
