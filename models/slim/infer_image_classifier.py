@@ -140,11 +140,12 @@ def main(_):
           pkv = predictions_value_k_[j]
           pk_str = ', '.join(['%s(%s)' % (labels[str(p)], p) for p in pk])
           print('%s: %s' % (image_files[i*batch_size+j], pk_str))
+          if pkv[0] > 0.9:
           predictions_k_detail_output.append({
               'image_id': os.path.basename(image_files[i * batch_size + j], pk_str),
               "label_id": [[labels[str(p)], int(p), float(pkv[k])] for k, p in enumerate(pk)]
           })
-          # predictions_k_output.append({'image_id': os.path.basename(image_files[i*batch_size+j]), 'label_id': [int(pk[0]) for p in pk]})
+          # predictions_k_output.append({'image_id': os.path.basename(image_files[i*batch_size+j]), 'label_id': [int(pk) for p in pk]})
           predictions_k_output.append({'image_id': os.path.basename(image_files[i * batch_size + j]), 'label_id': int(pk[0])})
     if FLAGS.output_file:
       import json
