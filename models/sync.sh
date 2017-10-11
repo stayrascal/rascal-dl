@@ -1,0 +1,1 @@
+rsync -r -k --safe-links --exclude=./CTPN/caffe  ./CTPN zp@ai01:/home/zp/projects
