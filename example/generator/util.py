@@ -27,11 +27,12 @@ class randomdata(object):
 
     @staticmethod
     def random_font_size():
-        return random.choice(range(25, 60))
+        return random.choice(range(26, 28))
 
     @staticmethod
     def random_font_color():
-        return random.choice(['White'] * 5 + ['Blue', 'Yellow', 'Black', 'FloralWhite', 'Green', 'OrangeRed'])
+        return random.choice(['Black'])
+        # return random.choice(['White'] * 5 + ['Blue', 'Yellow', 'Black', 'FloralWhite', 'Green', 'OrangeRed'])
 
     @staticmethod
     def random_timestamp():
@@ -70,7 +71,7 @@ class randomdata(object):
 
     @staticmethod
     def random_pos(im_size, mark_size):
-        position = random.choice('left_top', 'left_bottom', 'right_top', 'right_bottom')
+        position = random.choice(['left_top', 'left_bottom', 'right_top', 'right_bottom'])
 
         def random_to_add(im_length, mark_length):
             to_add = im_length // 4 - mark_length // 2
@@ -79,23 +80,25 @@ class randomdata(object):
 
         x_to_add, y_to_add = random_to_add(im_size[0], mark_size[0]), random_to_add(im_size[1], mark_size[1])
 
-        if position == 'left_top':
-            x = x_to_add
-            y = y_to_add
-        elif position == 'left_bottom':
-            x = x_to_add
-            y = im_size[1] - mark_size[1] - y_to_add
-        elif position == 'right_top':
-            x = im_size[0] - mark_size[0] - x_to_add
-            y = y_to_add
-        elif position == 'right_bottom':
-            x = im_size[0] - mark_size[0] - x_to_add
-            y = im_size[1] - mark_size[1] - y_to_add
-        else:
-            x = (im_size[0] - mark_size[0]) // 2
-            x = random.choice([x + x_to_add // 2, x - x_to_add // 2])
-            y = (im_size[1] - mark_size[1]) // 2
-            y = random.choice([y + y_to_add // 2, y - y_to_add // 2])
+        # if position == 'left_top':
+        #     x = x_to_add
+        #     y = y_to_add
+        # elif position == 'left_bottom':
+        #     x = x_to_add
+        #     y = im_size[1] - mark_size[1] - y_to_add
+        # elif position == 'right_top':
+        #     x = im_size[0] - mark_size[0] - x_to_add
+        #     y = y_to_add
+        # elif position == 'right_bottom':
+        #     x = im_size[0] - mark_size[0] - x_to_add
+        #     y = im_size[1] - mark_size[1] - y_to_add
+        # else:
+        x = (im_size[0] - mark_size[0]) // 2
+        # x = random.choice([x + x_to_add // 2, x - x_to_add // 2])
+        x = x + x_to_add // 4
+        y = (im_size[1] - mark_size[1]) // 2
+        y = random.choice([y + y_to_add // 2, y - y_to_add // 2])
+        # y = y - y_to_add // 2
         return x, y
 
     @staticmethod
@@ -118,7 +121,7 @@ def text2img(text, font, font_size, font_color):
     draw.font = font
     for index in range(len(texts)):
         (width, height) = font.getsize(texts[index])
-        draw.text((0, index * height), text[index], fill=font_color)
+        draw.text((0, index * height), texts[index], fill=font_color)
     return mark
 
 
@@ -131,3 +134,12 @@ def set_opacity(im, opacity):
     alpha = ImageEnhance.Brightness(alpha).enhance(opacity)
     im.putalpha(alpha)
     return im
+
+def mark_image(im, mark, pos, opacity):
+    if im.mode != 'RGBA':
+        im = im.convert('RBGA')
+    set_opacity(im, opacity)
+
+    layer = Image.new('RGBA', im.size)
+    layer.paste(mark, pos)
+    return Image.composite(layer, im, layer)
