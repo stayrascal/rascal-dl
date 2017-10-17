@@ -37,28 +37,25 @@ class randomdata(object):
     def random_timestamp():
         def random_number(start, end):
             number = random.randint(start, end)
-            return '' + number if number > 9 else '0' + number
+            return '{}{}'.format('' if number > 9 else '0', number)
 
         day = random_number(0, 31)
         month = random_number(0, 12)
         year = random_number(2000, 2020)
         hour = random_number(0, 23)
-        min = random_number(0, 59)
+        mins = random_number(0, 59)
         sec = random_number(0, 59)
-        return day + '/' + month + '/' + year + ' ' + hour + ':' + min + ':' + sec
+        return '{}/{}/{} {}:{}:{}'.format(day, month, year, hour, mins, sec)
 
     @staticmethod
     def _random_text():
         numbers = '0123456789'
-        text = [random.choice(numbers) for i in range(15)] + [randomdata.random_timestamp()]
-        return ' '.join(text)
+        text = [random.choice(numbers) for i in range(15)]
+        return '{} {}'.format(''.join(text), randomdata.random_timestamp())
 
     @staticmethod
-    def random_text(name_chars=None):
-        if random.random() < 0.5:
-            return False, ''.join(randomdata._random_name(name_chars))
-        else:
-            return True, randomdata._random_text()
+    def random_text():
+        return randomdata._random_text()
 
     @staticmethod
     def random_opacity():
@@ -106,7 +103,7 @@ class randomdata(object):
         return os.path.join(clean_images_dir, random.choice(clean_images))
 
 
-def txt2img(text, font, font_size, font_color):
+def text2img(text, font, font_size, font_color):
     font = ImageFont.truetype(font, font_size)
     texts = text.split('\n')
     mark_width = 0
