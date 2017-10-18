@@ -23,11 +23,11 @@ class randomdata(object):
                     return any([name.startswith(name_prefix) for name_prefix in support_fonts])
 
             randomdata.fonts = list(filter(font_filter, fonts))
-            return fonts_dir + random.choice(randomdata.fonts)
+        return fonts_dir + random.choice(randomdata.fonts)
 
     @staticmethod
     def random_font_size():
-        return random.choice(range(26, 28))
+        return random.choice(range(24, 26))
 
     @staticmethod
     def random_font_color():
@@ -107,6 +107,9 @@ class randomdata(object):
 
 
 def text2img(text, font, font_size, font_color):
+    print('font: ', font)
+    if 'Bold' in font:
+        font_size = font_size - 1
     font = ImageFont.truetype(font, font_size)
     texts = text.split('\n')
     mark_width = 0
