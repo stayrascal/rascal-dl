@@ -41,7 +41,7 @@ parser.add_argument('--random_sample', action='store_true', help='whether to sam
 opt = parser.parse_args()
 print(opt)
 
-opt.alphabet = 'abcdefghijklmnopqrstuvwxyz0123456789!#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~ '
+opt.alphabet = '0123456789:/'
 
 if opt.experiment is None:
     opt.experiment = 'expr'
@@ -58,7 +58,7 @@ cudnn.benchmark = True
 if torch.cuda.is_available() and not opt.cuda:
     print("WARNING: You have a CUDA device, so you should probably run with --cuda")
 
-train_dataset = dataset.WatermarkTextDataset(root=opt.trainroot)
+train_dataset = dataset.DateTextDataset(root=opt.trainroot)
 assert train_dataset
 if not opt.random_sample:
     sampler = dataset.randomSequentialSampler(train_dataset, opt.batchSize)
@@ -69,8 +69,8 @@ train_loader = torch.utils.data.DataLoader(
     shuffle=True, sampler=sampler,
     num_workers=int(opt.workers),
     collate_fn=dataset.alignCollate(imgH=opt.imgH, imgW=opt.imgW, keep_ratio=opt.keep_ratio))
-test_dataset = dataset.WatermarkTextDataset(
-    root=opt.valroot, transform=dataset.resizeNormalize((100, 32)))
+
+test_dataset = dataset.WatermarkTextDataset(root=opt.valroot, transform=dataset.resizeNormalize((100, 32)))
 
 nclass = len(opt.alphabet) + 1
 nc = 1

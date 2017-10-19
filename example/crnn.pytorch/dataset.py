@@ -14,12 +14,12 @@ from PIL import Image
 import numpy as np
 
 
-class WatermarkTextDataset(Dataset):
+class DateTextDataset(Dataset):
 
     def __init__(self, root, transform=None, target_transform=None):
         self.images, self.labels = None, []
-        for f in root.split(','):
-            data = pickle.loads(open(f, 'rb').read())
+        for pickle_file in root.split(','):
+            data = pickle.loads(open(pickle_file, 'rb').read())
             images, labels = data['images'], data['stats']
             self.images = np.concatenate((self.images, images)) if self.images is not None else images
             self.labels += labels

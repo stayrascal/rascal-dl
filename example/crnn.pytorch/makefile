@@ -1,6 +1,6 @@
 test-train:
-	python3 crnn_main.py --trainroot ../image-auditor/watermark/_test/rcnn.pickle,../image-auditor/watermark/_test/rcnn.pickle \
-		--valroot ../image-auditor/watermark/_test/rcnn.pickle \
+	python3 crnn_main.py --trainroot ../generator/data/train/text.pickle,../generator/data/train/rcnn.pickle \
+		--valroot ../generator/data/train/test.pickle \
 		--experiment ./data/model \
 		--displayInterval 1 --n_test_disp 2 --niter 2 --batchSize 1 --random_sample --saveInterval 2 \
 		--crnn ./data/crnn.pth
@@ -9,12 +9,10 @@ TRAIN_CRNN_PATH=./data/crnn.pth
 LR=0.001
 MODEL_PATH=./data/model/train
 train:
-	trainroot=../image-auditor/watermark/data/data/rcnn-1/rcnn.pickle; \
-	trainroot=$$trainroot,../image-auditor/watermark/data/data/rcnn-2/rcnn.pickle; \
-	trainroot=$$trainroot,../image-auditor/watermark/data/data/rcnn-3/rcnn.pickle; \
-	trainroot=$$trainroot,../image-auditor/watermark/data/data/rcnn-4/rcnn.pickle; \
+	trainroot=../generator/data/train/text.pickle; \
+	trainroot=$$trainroot,../generator/data/train/rcnn.pickle; \
 	python3 crnn_main.py --trainroot $$trainroot \
-		--valroot ../image-auditor/watermark/data/data/rcnn/rcnn.pickle \
+		--valroot ../generator/data/train/test.pickle \
 		--experiment ${MODEL_PATH} \
 		--random_sample --crnn ${TRAIN_CRNN_PATH} --workers 1 --cuda --lr ${LR} --niter 15
 
