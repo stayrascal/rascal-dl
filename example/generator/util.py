@@ -107,7 +107,6 @@ class randomdata(object):
 
 
 def text2img(text, font, font_size, font_color):
-    print('font: ', font)
     if 'Bold' in font:
         font_size = font_size - 1
     font = ImageFont.truetype(font, font_size)

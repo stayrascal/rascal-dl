@@ -16,13 +16,13 @@ tf.flags.DEFINE_string('data_path', '', 'directory or file path of data')
 tf.flags.DEFINE_string('infer_image_path', '', 'file path of image file or directory to infer')
 tf.flags.DEFINE_integer('batch_size', '64', 'batch size')
 tf.flags.DEFINE_integer('num_epochs', '5', 'epoch number')
-tf.flags.DEFINE_float('lr', '0,001', 'learning rate')
+tf.flags.DEFINE_float('lr', '0.001', 'learning rate')
 flags = tf.flags.FLAGS
 
 CATEGORIES = []
 
 
-def mode_custom(inputs, training, num_classes):
+def model_custom(inputs, training, num_classes):
     inputs = tf.image.resize_images(inputs, (256, 256))
     net = inputs
     net = tf.layers.conv2d(net, 32, 3, strides=(2, 2), padding='same', activation=tf.nn.relu)
@@ -41,7 +41,7 @@ def mode_custom(inputs, training, num_classes):
     return tf.layers.dense(net, num_classes)
 
 
-def mode_inception_v3(inputs, training, num_classes):
+def model_inception_v3(inputs, training, num_classes):
     inputs = tf.image.resize_images(inputs, (299, 299))
     logits, _ = slim_nets.resnet_v2.resnet_v2_50(inputs, num_classes=num_classes, is_training=training)
     logits = tf.squeeze(logits, (1, 2))
@@ -69,7 +69,7 @@ def model_fn(features, labels, mode):
     }
 
     if mode != tf.estimator.ModeKeys.PREDICT:
-        labels = tf.cast(labels, loss)
+        labels = tf.cast(labels, tf.int64)
         loss = tf.reduce_mean(tf.losses.sparse_softmax_cross_entropy(labels, logits))
 
     if mode == tf.estimator.ModeKeys.TRAIN:
@@ -128,15 +128,10 @@ def preprocess_image(image_buffer):
 
 
 def parse_input_data():
-    def category_index(stat):
-        if not stat['text']:
-            return 0
-        else:
-            return 1 if len(CATEGORIES) == 3 else 0
 
     def parse_data(date_file):
         loaded = pickle.load(open(date_file, 'rb'))
-        images, labels = loaded['images'], np.array(list(map(category_index, loaded['stats'])), dtype=np.int8)
+        images, labels = loaded['images'], loaded['stats']
         return images, labels
 
     if os.path.isdir(flags.data_path):
@@ -179,11 +174,10 @@ def main(_):
     estimator = tf.estimator.Estimator(
         model_fn=model_fn,
         model_dir='./data/models/{}'.format(flags.name),
-        config=tf.estimator.RunConfig.replace(keep_checkpoint_max=20))
+        config=tf.estimator.RunConfig().replace(keep_checkpoint_max=20))
 
     if flags.mode in ['train', 'eval']:
         images, labels = parse_input_data()
-
         num_epochs = flags.num_epochs if flags.mode == 'train' else 1
         input_fn = tf.estimator.inputs.numpy_input_fn(
             x={'images': images}, y=labels, batch_size=flags.batch_size, num_epochs=num_epochs, shuffle=True)
