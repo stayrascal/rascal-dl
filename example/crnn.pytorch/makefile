@@ -55,5 +55,3 @@ MODEL_PATH=./data/model/train-2/netCRNN_14_6000.pth
 DECODED_FILE=decoded.10.csv
 test-rea:
 	for f in `ls t/Texts`; do rec=`python3 demo.py ${MODEL_PATH} t/Texts/$$f | grep '=>' | egrep -o '=> .*' | cut -c4-`; echo $$f,$$rec | tee -a ${DECODED_FILE}; done
-test-lenovo:
-    for f in `ls t/lenovo`; do rec=`python3 demo.py ${MODEL_PATH} t/lenovo/$$f | grep '=>' | egrep -o '=> .*' | cut -c4-`; echo $$f,$$rec | tee -a ${DECODE_FILE}; done

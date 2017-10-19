@@ -8,13 +8,10 @@ from PIL import Image
 import models.crnn as crnn
 
 
-model_path = './data/crnn.pth'
-img_path = './data/demo.png'
-alphabet = '0123456789abcdefghijklmnopqrstuvwxyz'
 
 model_path = sys.argv[1]
 img_path = sys.argv[2]
-alphabet = 'abcdefghijklmnopqrstuvwxyz0123456789!#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~ '
+alphabet = '0123456789/:'
 
 model = crnn.CRNN(32, 1, len(alphabet) + 1, 256)
 if torch.cuda.is_available():
