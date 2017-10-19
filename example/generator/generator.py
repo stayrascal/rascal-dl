@@ -21,7 +21,6 @@ def generate_image(mode):
         opacity = randomdata.random_opacity()
         text = randomdata.random_text()
         font, font_size, font_color = randomdata.random_font(), randomdata.random_font_size(), randomdata.random_font_color()
-        print('text', text)
         mark = text2img(text, font, font_size, font_color)
         position = randomdata.random_pos(image.size, mark.size)
         image = mark_image(image, mark, position, opacity)
