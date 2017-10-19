@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>decoded</title>
+    <script src="jquery.min.js"></script>
+</head>
+<body>
+<table id="images" border="1">
+    <tr>
+        <td>filename</td>
+        <td>image</td>
+        <td>decoded</td>
+    </tr>
+</table>
+</body>
+<script type="text/javascript">
+var data_raw = ['decoded.csv', 'decoded.1.csv', 'decoded.2.csv'];
+var data = {};
+var to_data = function(d) {
+    if(!d) {
+        return;
+    }
+    var sep_idx = d.indexOf(',');
+    var fn = d.substring(0, sep_idx);
+    var rec = d.substring(sep_idx + 1).trim();
+    if (data[fn] === undefined) {
+        data[fn] = [rec];
+    } else {
+        data[fn].push(rec);
+    }
+};
+var get_raw = function (idx) {
+    if (idx >= data_raw.length) {
+        render();
+        return;
+    }
+    $.get(data_raw[idx], (_data) => {
+        _data.split('\n').forEach(to_data);
+        get_raw(idx + 1);
+    });
+
+};
+get_raw(0);
+function render() {
+    var elements = [];
+    var fns = Object.keys(data);
+    for (var i = 0; i < fns.length; i++) {
+        var filename = fns[i];
+        var text = data[filename].join('<br>');
+        var image = `<img src="t/Texts/${filename}" height="40" width="300">`;
+        elements.push($(`<tr><td>t/Texts/${filename}</td><td>${image}</td><td>${text}</td></tr>`));
+    }
+
+    $('#images').append(elements);
+
+}
+</script>
+</html>
