@@ -88,7 +88,8 @@ def weights_init(m):
         m.weight.data.normal_(1.0, 0.02)
         m.bias.data.fill_(0)
 
-
+# While copying the parameter named rnn.1.embedding.weight,
+# whose dimensions in the model are torch.Size([13, 512]) and whose dimensions in the checkpoint are torch.Size([37, 512]), ...
 crnn = crnn.CRNN(opt.imgH, nc, nclass, opt.nh)
 crnn.apply(weights_init)
 if opt.crnn != '':
@@ -96,6 +97,7 @@ if opt.crnn != '':
     state_dict = torch.load(opt.crnn)
     state_dict = dict([(k[len('module.'):] if k.startswith('module.') else k, v) for k, v in state_dict.items()])
     class_count = len(opt.alphabet) + 1
+    print(class_count)
     if state_dict['rnn.1.embedding.bias'].size()[0] != class_count:
         state_dict['rnn.1.embedding.bias'] = torch.randn(class_count)
         state_dict['rnn.1.embedding.weight'] = torch.randn(class_count, 512)
