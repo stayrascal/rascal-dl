@@ -108,8 +108,7 @@ def load_params(py_layer, t7_layer):
         try:
             item.copy_(t7_param)
         except RuntimeError:
-            print('Size not match between %s and %s' %
-                  (item.size(), t7_param.size()))
+            print('Size not match between %s and %s' % (item.size(), t7_param.size()))
 
 
 def torch_to_pytorch(model, t7_file, output):
@@ -144,24 +143,10 @@ def torch_to_pytorch(model, t7_file, output):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(
-        description='Convert torch t7 model to pytorch'
-    )
-    parser.add_argument(
-        '--model_file',
-        '-m',
-        type=str,
-        required=True,
-        help='torch model file in t7 format'
-    )
-    parser.add_argument(
-        '--output',
-        '-o',
-        type=str,
-        default=None,
-        help='output file name prefix, xxx.py xxx.pth'
-    )
+    parser = argparse.ArgumentParser(description='Convert torch t7 model to pytorch')
+    parser.add_argument('--model_file','-m', type=str, required=True, help='torch model file in t7 format')
+    parser.add_argument('--output', '-o', type=str, default=None, help='output file name prefix, xxx.py xxx.pth')
     args = parser.parse_args()
 
-    py_model = crnn.CRNN(32, 1, 37, 256, 1)
+    py_model = crnn.CRNN(32, 1, 13, 256, 1)
     torch_to_pytorch(py_model, args.model_file, args.output)
