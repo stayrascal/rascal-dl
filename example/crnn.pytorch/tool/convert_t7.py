@@ -150,3 +150,38 @@ if __name__ == "__main__":
 
     py_model = crnn.CRNN(32, 1, 13, 256, 1)
     torch_to_pytorch(py_model, args.model_file, args.output)
+
+
+# Conv2d(1, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1)),
+# ReLU (inplace),
+# MaxPool2d (size=(2, 2), stride=(2, 2), dilation=(1, 1)),
+
+# Conv2d(64, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1)),
+# ReLU (inplace),
+# MaxPool2d (size=(2, 2), stride=(2, 2), dilation=(1, 1)),
+
+# Conv2d(128, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1)),
+# BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True),
+# ReLU (inplace),
+
+# Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1)),
+# ReLU (inplace),
+# MaxPool2d (size=(2, 2), stride=(2, 1), dilation=(1, 1)),
+
+# Conv2d(256, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1)),
+# BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True),
+# ReLU (inplace),
+
+# Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1)),
+# ReLU (inplace),
+# MaxPool2d (size=(2, 2), stride=(2, 1), dilation=(1, 1)),
+
+# Conv2d(512, 512, kernel_size=(2, 2), stride=(1, 1)),
+# BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True),
+# ReLU (inplace),
+
+# LSTM(512, 256, bidirectional=True),
+# Linear (512 -> 256),
+
+# LSTM(256, 256, bidirectional=True),
+# Linear (512 -> 13)
