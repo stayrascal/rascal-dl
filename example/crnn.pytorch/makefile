@@ -5,10 +5,12 @@ test-train:
 		--displayInterval 1 --n_test_disp 2 --niter 2 --batchSize 1 --random_sample --saveInterval 2 \
 		--crnn ./data/crnn.pth --cuda
 
-TRAIN_CRNN_PATH=./data/crnn.pth
+TRAIN_CRNN_PATH=./data/netCRNN_14_6000.pth
 LR=0.001
 train:
 	trainroot=../generator/data/train/rcnn.pickle; \
+	trainroot=$$trainroot,../generator/data/train/rcnn1.pickle; \
+	trainroot=$$trainroot,../generator/data/train/rcnn2.pickle; \
 	python3 crnn_main.py --trainroot $$trainroot \
 		--valroot ../generator/data/train/test.pickle \
 		--experiment ./data/model/train \
