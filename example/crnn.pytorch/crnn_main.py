@@ -41,7 +41,7 @@ parser.add_argument('--random_sample', action='store_true', help='whether to sam
 opt = parser.parse_args()
 print(opt)
 
-opt.alphabet = '0123456789:/'
+opt.alphabet = '0123456789:/ '
 
 if opt.experiment is None:
     opt.experiment = 'expr'
@@ -95,12 +95,11 @@ crnn.apply(weights_init)
 if opt.crnn != '':
     print('loading pretrained model from %s' % opt.crnn)
     state_dict = torch.load(opt.crnn)
-    state_dict = dict([(k[len('module.'):] if k.startswith('module.') else k, v) for k, v in state_dict.items()])
-    class_count = len(opt.alphabet) + 1
-    print(class_count)
-    if state_dict['rnn.1.embedding.bias'].size()[0] != class_count:
-        state_dict['rnn.1.embedding.bias'] = torch.randn(class_count)
-        state_dict['rnn.1.embedding.weight'] = torch.randn(class_count, 512)
+    # state_dict = dict([(k[len('module.'):] if k.startswith('module.') else k, v) for k, v in state_dict.items()])
+    # class_count = len(opt.alphabet) + 1
+    # if state_dict['rnn.1.embedding.bias'].size()[0] != class_count:
+    #     state_dict['rnn.1.embedding.bias'] = torch.randn(class_count)
+    #     state_dict['rnn.1.embedding.weight'] = torch.randn(class_count, 512)
     crnn.load_state_dict(state_dict)
 print(crnn)
 
