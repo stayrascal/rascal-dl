@@ -70,7 +70,7 @@ train_loader = torch.utils.data.DataLoader(
     num_workers=int(opt.workers),
     collate_fn=dataset.alignCollate(imgH=opt.imgH, imgW=opt.imgW, keep_ratio=opt.keep_ratio))
 
-test_dataset = dataset.WatermarkTextDataset(root=opt.valroot, transform=dataset.resizeNormalize((100, 32)))
+test_dataset = dataset.DateTextDataset(root=opt.valroot, transform=dataset.resizeNormalize((100, 32)))
 
 nclass = len(opt.alphabet) + 1
 nc = 1
