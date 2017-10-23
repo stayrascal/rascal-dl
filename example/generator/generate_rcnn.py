@@ -31,7 +31,7 @@ def main():
     parser.add_argument('count', type=int, help='how many samples to generate')
     args = parser.parse_args()
 
-    final_size = (220, 20)
+    final_size = (200, 32)
 
     if args.sample:
         image, text = generate_sample()

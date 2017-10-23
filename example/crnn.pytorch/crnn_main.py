@@ -138,8 +138,7 @@ def val(net, dataset, criterion, max_iter=100):
         p.requires_grad = False
 
     net.eval()
-    data_loader = torch.utils.data.DataLoader(
-        dataset, shuffle=True, batch_size=opt.batchSize, num_workers=int(opt.workers))
+    data_loader = torch.utils.data.DataLoader(dataset, shuffle=True, batch_size=opt.batchSize, num_workers=int(opt.workers))
     val_iter = iter(data_loader)
 
     i = 0
@@ -171,6 +170,7 @@ def val(net, dataset, criterion, max_iter=100):
             if pred == target.lower():
                 n_correct += 1
 
+    # :9999       990 890000 49 =>  :9 90 890 49       , gt: 202585869251888 26/07/2014 04:10:31
     raw_preds = converter.decode(preds.data, preds_size.data, raw=True)[:opt.n_test_disp]
     for raw_pred, pred, gt in zip(raw_preds, sim_preds, cpu_texts):
         print('%-20s => %-20s, gt: %-20s' % (raw_pred, pred, gt))

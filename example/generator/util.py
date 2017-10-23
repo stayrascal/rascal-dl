@@ -27,7 +27,7 @@ class randomdata(object):
 
     @staticmethod
     def random_font_size():
-        return random.choice(range(24, 26))
+        return random.choice(range(28, 30))
 
     @staticmethod
     def random_font_color():
@@ -52,7 +52,8 @@ class randomdata(object):
     def _random_text():
         numbers = '0123456789'
         text = [random.choice(numbers) for i in range(15)]
-        return '{} {}'.format(''.join(text), randomdata.random_timestamp())
+        # return '{} {}'.format(''.join(text), randomdata.random_timestamp())
+        return ''.join(text)
 
     @staticmethod
     def random_text():
