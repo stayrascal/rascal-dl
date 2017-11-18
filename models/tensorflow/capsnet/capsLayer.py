@@ -1,7 +1,7 @@
 import numpy as np
 import tensorflow as tf
 
-from .config import cfg
+from config import cfg
 
 epsilon = 1e-9
 
