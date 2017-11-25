@@ -62,8 +62,8 @@ def distort_color(image, color_ordering=0, fast_mode=True, scope=None):
     with tf.name_scope(scope, 'distort_color', [image]):
         if fast_mode:
             if color_ordering == 0:
-                image = tf.image.random_brightness(image, max_delta=32. / 255.)
-                image = tf.image.random_saturation(image, lower=0.5, upper=1.5)
+                image = tf.image.random_brightness(image, max_delta=32. / 255.)  # 随机调整RGB或灰度图的明暗度
+                image = tf.image.random_saturation(image, lower=0.5, upper=1.5)  # 随机调节RGB图像的饱和度
             else:
                 image = tf.image.random_saturation(image, lower=0.5, upper=1.5)
                 image = tf.image.random_brightness(image, max_delta=32. / 255.)
@@ -71,8 +71,8 @@ def distort_color(image, color_ordering=0, fast_mode=True, scope=None):
             if color_ordering == 0:
                 image = tf.image.random_brightness(image, max_delta=32. / 255.)
                 image = tf.image.random_saturation(image, lower=0.5, upper=1.5)
-                image = tf.image.random_hue(image, max_delta=0.2)
-                image = tf.image.random_contrast(image, lower=0.5, upper=1.5)
+                image = tf.image.random_hue(image, max_delta=0.2)  # 随机调节RGB图像的色彩
+                image = tf.image.random_contrast(image, lower=0.5, upper=1.5)  # 随机调整RGB或灰度图的对比度
             elif color_ordering == 1:
                 image = tf.image.random_saturation(image, lower=0.5, upper=1.5)
                 image = tf.image.random_brightness(image, max_delta=32. / 255.)
@@ -137,6 +137,7 @@ def distorted_bounding_box_crop(image,
         # allowed range of aspect ratios, sizes and overlap with the human-annotated
         # bounding box. If no box is supplied, then we assume the bounding box is
         # the entire image.
+        # 随机输出截取图片
         sample_distorted_bounding_box = tf.image.sample_distorted_bounding_box(tf.shape(image),
                                                                                bounding_boxes=bbox,
                                                                                min_object_covered=min_object_covered,
@@ -206,8 +207,7 @@ def preprocess_for_train(image, height, width, bbox, fast_mode=True, scope=None)
             lambda x, method: tf.image.resize_images(x, [height, width], method),
             num_cases=num_resize_cases)
 
-        tf.summary.image('cropped_resized_image',
-                         tf.expand_dims(distorted_image, 0))
+        tf.summary.image('cropped_resized_image', tf.expand_dims(distorted_image, 0))
 
         # Randomly flip the image horizontally.
         distorted_image = tf.image.random_flip_left_right(distorted_image)
