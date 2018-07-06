@@ -93,6 +93,8 @@ def build_model_columns():
 
 def save_model(model, serving_model_dir):
     _, deep_columns, crossed_columns = build_model_columns()
+    # make_parse_example_spec returns a dict mapping feature keys
+    # from feature_columns to FixedLenFeature or VarLenFeature values.
     feature_spec = tf.feature_column.make_parse_example_spec(crossed_columns + deep_columns)
     export_input_fn = tf.estimator.export.build_parsing_serving_input_receiver_fn(feature_spec)
     model.export_savedmodel(serving_model_dir, export_input_fn)

@@ -2,9 +2,9 @@ import os
 import tensorflow as tf
 from tqdm import tqdm
 
-from .config import cfg
-from .utils import load_mnist
-from .capsNet import CapsNet
+from config import cfg
+from utils import load_mnist
+from capsNet import CapsNet
 
 
 def main(_):
